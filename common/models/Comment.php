@@ -36,8 +36,8 @@ class Comment extends \yii\db\ActiveRecord
             [['created', 'updated', 'user_id', 'article_id'], 'integer'],
             [['user_id', 'article_id'], 'required'],
             [['text'], 'string', 'max' => 255],
-            [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::className(), 'targetAttribute' => ['article_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::class, 'targetAttribute' => ['article_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -48,11 +48,11 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Text',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'user_id' => 'User ID',
-            'article_id' => 'Article ID',
+            'text' => 'Комментарий',
+            'created' => 'Создан',
+            'updated' => 'Обновлен',
+            'user_id' => 'ID Пользователя',
+            'article_id' => 'ID Статьи',
         ];
     }
 
@@ -63,7 +63,7 @@ class Comment extends \yii\db\ActiveRecord
      */
     public function getArticle()
     {
-        return $this->hasOne(Article::className(), ['id' => 'article_id']);
+        return $this->hasOne(Article::class, ['id' => 'article_id']);
     }
 
     /**
@@ -73,6 +73,6 @@ class Comment extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

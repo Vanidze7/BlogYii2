@@ -40,8 +40,8 @@ class Article extends \yii\db\ActiveRecord
             [['views', 'created', 'updated', 'user_id', 'category_id'], 'integer'],
             [['user_id', 'category_id'], 'required'],
             [['title', 'text', 'img'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -52,14 +52,14 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'text' => 'Text',
-            'views' => 'Views',
-            'img' => 'Img',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'user_id' => 'User ID',
-            'category_id' => 'Category ID',
+            'title' => 'Наименование',
+            'text' => 'Текст статьи',
+            'views' => 'Кол-во просмотров',
+            'img' => 'Картинка',
+            'created' => 'Создана',
+            'updated' => 'Обновлена',
+            'user_id' => 'ID Пользователя',
+            'category_id' => 'ID Категории',
         ];
     }
 
@@ -70,7 +70,7 @@ class Article extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
     /**
@@ -80,7 +80,7 @@ class Article extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comment::className(), ['article_id' => 'id']);
+        return $this->hasMany(Comment::class, ['article_id' => 'id']);
     }
 
     /**
@@ -90,6 +90,6 @@ class Article extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
