@@ -7,38 +7,45 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Article */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="article-view">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать статью', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить статью', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Ты уверен что хочешь удалить эту статью?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'title',
-            'text',
+            [
+                'attribute' => 'text', //как увеличить ширину столбца?
+                'format' => 'raw',
+            ],
             'views',
             'img',
             'created',
             'updated',
-            'user_id',
-            'category_id',
+            [
+                'attribute' => 'user_id',
+                'value' => '<a href="' . \yii\helpers\Url::to(['site/userview', 'id' => $model->user->id]) . '">' . $model->user->id . ' - ' . $model->user->username . '</a>',//создать метод и вид пользователя
+                'format' => 'raw',
+            ],
+            [
+                'attribute' => 'category_id',
+                'value' => '<a href="' . \yii\helpers\Url::to(['category/view', 'id' => $model->category->id]) . '">' . $model->category->title . '</a>',
+                'format' => 'raw',
+            ],
         ],
     ]) ?>
-
 </div>

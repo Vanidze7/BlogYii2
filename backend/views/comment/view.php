@@ -7,35 +7,39 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Comment */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Comments', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Комментарии', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="comment-view">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Ты уверен что хочешь удалить этот комментарий?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'text',
+            'text:raw',
             'created',
             'updated',
-            'user_id',
-            'article_id',
+            [
+                'attribute' => 'user_id',
+                'value' => '<a href="' . \yii\helpers\Url::to(['site/userview', 'id' => $model->user->id]) . '">' . $model->user->id . ' - ' . $model->user->username . '</a>',
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'article_id',
+                'value' => '<a href="' . \yii\helpers\Url::to(['article/view', 'id' => $model->article->id]) . '">' . $model->article->title . '</a>',
+                'format' => 'raw'
+            ],
         ],
     ]) ?>
-
 </div>

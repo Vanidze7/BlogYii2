@@ -1,5 +1,7 @@
 <?php
 
+use kartik\editors\Summernote;
+use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -9,29 +11,23 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="article-form">
-
     <?php $form = ActiveForm::begin(); ?>
-
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'text')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'text')->widget(Summernote::class, [
+        'options' => ['placeholder' => 'Edit your blog content here...']
+    ]) ?>
     <?= $form->field($model, 'views')->textInput() ?>
-
-    <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'created')->textInput() ?>
-
-    <?= $form->field($model, 'updated')->textInput() ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->textInput() ?>
-
+    <?= $form->field($model, 'file')->widget(FileInput::class, [
+        'options' => ['accept' => 'image/*'],
+        'pluginOptions' => [
+            'showCaption' => false,//настройки
+            'showUpload' => false,
+        ],
+    ]); ?>
+    <?= $form->field($model, 'user_id')->dropDownList(\common\models\User::getUserList()) ?>
+    <?= $form->field($model, 'category_id')->dropDownList(\common\models\Category::getCategoryList()) ?>
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

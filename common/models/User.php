@@ -6,6 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -209,5 +210,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public static function getUserList()
+    {
+        $arrays = self::find()->select(['id', 'username'])->all();//CONCAT_WS(" - ", id, username) as username
+        return ArrayHelper::map($arrays, 'id', function($row) {
+            return $row['id'] . ' - ' . $row['username'];
+        });
     }
 }
