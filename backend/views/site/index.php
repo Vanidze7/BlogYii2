@@ -1,53 +1,79 @@
 <?php
 
-/* @var $this yii\web\View */
+use common\models\Article;
+use common\models\Category;
+use common\models\Comment;
+use common\models\User;
+use yii\helpers\Url;
+use yii\grid\GridView;
 
-$this->title = 'My Yii Application';
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'БлоГ Vano';
 ?>
 <div class="site-index">
-
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+    <h1 class="text-center">Ваши сущности</h1>
+    <div class="row">
+        <div class="col-lg-3">
+            <h3><a href="<?= Url::to(['category/index']) ?>">Категории</a></h3>
+            <?= GridView::widget([
+                'dataProvider' => $dataCategory,
+                'columns' => [
+                    [
+                        'attribute' => 'title',
+                        'value' => function(Category $model){
+                            return '<a href="' . Url::to(['category/view', 'id' => $model->id]) . '">' .$model->title . '</a>';
+                        },
+                        'format' => 'raw',
+                    ],
+                ],
+            ]); ?>
         </div>
-
+        <div class="col-lg-3">
+            <h3><a href="<?= Url::to(['article/index']) ?>">Статьи</a></h3>
+            <?= GridView::widget([
+                'dataProvider' => $dataArticle,
+                'columns' => [
+                    [
+                        'attribute' => 'title',
+                        'value' => function(Article $model){
+                            return '<a href="' . Url::to(['article/view', 'id' => $model->id]) . '">' .$model->title . '</a>';
+                        },
+                        'format' => 'raw',
+                    ],
+                ],
+            ]); ?>
+        </div>
+        <div class="col-lg-3">
+            <h3><a href="<?= Url::to(['comment/index']) ?>">Комментарии</a></h3>
+            <?= GridView::widget([
+                'dataProvider' => $dataComment,
+                'columns' => [
+                    [
+                        'attribute' => 'text',
+                        'value' => function(Comment $model){
+                            return '<a href="' . Url::to(['comment/view', 'id' => $model->id]) . '">' . substr($model->text, 0, 50) . '</a>';
+                        },
+                        'format' => 'raw',
+                    ],
+                ],
+            ]); ?>
+        </div>
+        <div class="col-lg-3">
+            <h3><a>Пользователи</a></h3>
+            <?= GridView::widget([
+                'dataProvider' => $dataUser,
+                'columns' => [
+                    [
+                        'attribute' => 'username',
+                        'value' => function(User $model){
+                            return '<a href="' . Url::to(['site/user-view', 'id' => $model->id]) . '">' . $model->username . '</a>';
+                        },
+                        'format' => 'raw',
+                    ],
+                ],
+            ]); ?>
+        </div>
     </div>
 </div>

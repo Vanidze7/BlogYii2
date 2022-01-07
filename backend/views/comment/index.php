@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'value' => function(Comment $model){
-                    return '<a href="' . \yii\helpers\Url::to(['site/userview', 'id' => $model->user->id]) . '">' . $model->user->id . ' - ' . $model->user->username . '</a>';
+                    return '<a href="' . \yii\helpers\Url::to(['site/user-view', 'id' => $model->user->id]) . '">' . $model->user->id . ' - ' . $model->user->username . '</a>';
                 },
                 'format' => 'raw',
             ],

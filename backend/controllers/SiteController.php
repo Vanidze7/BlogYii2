@@ -2,8 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\Article;
+use common\models\Category;
+use common\models\Comment;
 use common\models\LoginForm;
+use common\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -21,21 +26,21 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'user-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -62,7 +67,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $dataCategory = new ActiveDataProvider([
+            'query' => Category::find(),
+        ]);
+        $dataArticle = new ActiveDataProvider([
+            'query' => Article::find(),
+        ]);
+        $dataComment = new ActiveDataProvider([
+            'query' => Comment::find(),
+        ]);
+        $dataUser = new ActiveDataProvider([
+            'query' => User::find(),
+        ]);
+
+        return $this->render('index', [
+            'dataCategory' => $dataCategory,
+            'dataArticle' => $dataArticle,
+            'dataComment' => $dataComment,
+            'dataUser' => $dataUser,
+        ]);
     }
 
     /**
@@ -70,6 +93,16 @@ class SiteController extends Controller
      *
      * @return string|Response
      */
+
+    public function actionUserView($id)
+    {
+        $model = User::findOne(['id' => $id]);
+
+        return $this->render('user-view', [
+           'model' => $model,
+        ]);
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

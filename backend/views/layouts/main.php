@@ -41,6 +41,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Категории', 'url' => ['/category/index']];
         $menuItems[] = ['label' => 'Статьи', 'url' => ['/article/index']];
         $menuItems[] = ['label' => 'Комментарии', 'url' => ['/comment/index']];
+        $menuItems[] = ['label' => 'Кабинет пользователя', 'url' => ['/site/user-view', 'id' => Yii::$app->user->id]];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
             . Html::submitButton(
