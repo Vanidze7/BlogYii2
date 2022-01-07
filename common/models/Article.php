@@ -17,8 +17,8 @@ use yii\web\UploadedFile;
  * @property string|null $text
  * @property int|null $views
  * @property string|null $img
- * @property int|null $created
- * @property int|null $updated
+ * @property int|null $created_at
+ * @property int|null $updated_at
  * @property int $user_id
  * @property int $category_id
  *
@@ -40,15 +40,7 @@ class Article extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created' , 'updated'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated'],
-                ],
-                // если вместо метки времени UNIX используется datetime:
-                'value' => new Expression('NOW()'),//текущее значение
-            ],
+            'class' => TimestampBehavior::class,
         ];
     }
 
@@ -59,10 +51,9 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'text', 'user_id', 'category_id'], 'required'],
-            [['views', 'user_id', 'category_id'], 'integer'],
+            [['created_at', 'updated_at', 'views', 'user_id', 'category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [['text'], 'string'],
-            [['created', 'updated'], 'safe'],
             [['file'], 'image'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -81,8 +72,8 @@ class Article extends \yii\db\ActiveRecord
             'views' => 'Кол-во просмотров',
             'img' => 'Картинка',
             'file' => 'Файл',
-            'created' => 'Создана',
-            'updated' => 'Обновлена',
+            'created_at' => 'Создана',
+            'updated_at' => 'Обновлена',
             'user_id' => 'ID Пользователя',
             'category_id' => 'ID Категории',
         ];
@@ -120,8 +111,10 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getArticleList()
     {
-        $arrays = self::find()->select(['id', 'title'])->all();//как сделать чтобы отображался номер ID тоже?
-        return ArrayHelper::map($arrays, 'id', 'title');
+        $arrays = self::find()->select(['id', 'title'])->all();
+        return ArrayHelper::map($arrays, 'id', function ($string){
+            return $string['id'] . ' - ' . $string['title'];
+        });
     }
 
     public function beforeSave($insert)

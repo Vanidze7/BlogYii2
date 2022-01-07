@@ -22,8 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'text:raw',
-            'created',
-            'updated',
+            [
+                'attribute' => 'created_at',
+                'value' => function(Comment $model){
+                    return date("Y-m-d H:i:s", $model->created_at);
+                },
+                'format' => 'raw',
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function(Comment $model){
+                    return date("Y-m-d H:i:s", $model->updated_at);
+                },
+                'format' => 'raw',
+            ],
             [
                 'attribute' => 'user_id',
                 'value' => function(Comment $model){
@@ -34,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'article_id',
                 'value' => function(Comment $model){
-                    return '<a href="' . \yii\helpers\Url::to(['article/view', 'id' => $model->article->id]) . '">' . $model->article->title . '</a>';
+                    return '<a href="' . \yii\helpers\Url::to(['article/view', 'id' => $model->article->id]) . '">' . $model->article->id . ' - ' . $model->article->title . '</a>';
                 },
                 'format' => 'raw',
             ],

@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             [
-                'attribute' => 'text', //как увеличить ширину столбца?
+                'attribute' => 'text',
                 'value' => function(Article $model){
                     return substr($model->text, 0, 40);
                 },
@@ -31,8 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'views',
             'img',
-            'created',
-            'updated',
+            [
+                'attribute' => 'created_at',
+                'value' => function(Article $model){
+                    return date("Y-m-d H:i:s", $model->created_at);
+                },
+                'format' => 'raw',
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function(Article $model){
+                    return date("Y-m-d H:i:s", $model->updated_at);
+                },
+                'format' => 'raw',
+            ],
             [
                 'attribute' => 'user_id',
                 'value' => function(Article $model){

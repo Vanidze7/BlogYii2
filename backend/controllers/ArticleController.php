@@ -81,7 +81,7 @@ class ArticleController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                \Yii::$app->session->setFlash('success', 'Твоё вмешательство возымело эффект');//как вывести сообщение?
+                \Yii::$app->session->setFlash('success', 'Твоё вмешательство возымело эффект');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -105,7 +105,7 @@ class ArticleController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            \Yii::$app->session->setFlash('success', 'Твоё вмешательство возымело эффект');//как вывести сообщение?
+            \Yii::$app->session->setFlash('success', 'Твоё вмешательство возымело эффект');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

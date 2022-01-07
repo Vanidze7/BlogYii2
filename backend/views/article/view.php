@@ -28,14 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            [
-                'attribute' => 'text', //как увеличить ширину столбца?
-                'format' => 'raw',
-            ],
+            'text:raw',
             'views',
             'img',
-            'created',
-            'updated',
+            [
+                'attribute' => 'created_at',
+                'value' => date("Y-m-d H:i:s", $model->created_at),
+                'format' => 'raw',
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => date("Y-m-d H:i:s", $model->updated_at),
+                'format' => 'raw',
+            ],
             [
                 'attribute' => 'user_id',
                 'value' => '<a href="' . \yii\helpers\Url::to(['site/userview', 'id' => $model->user->id]) . '">' . $model->user->id . ' - ' . $model->user->username . '</a>',//создать метод и вид пользователя

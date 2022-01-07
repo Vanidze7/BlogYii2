@@ -16,10 +16,10 @@ class m220105_154323_create_article_table extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->string(),
             'text' => $this->text(),
-            'views' => $this->tinyInteger()->unsigned(),
+            'views' => $this->tinyInteger()->unsigned()->defaultValue(0),
             'img' => $this->string(),
-            'created' => $this->dateTime()->notNull(),
-            'updated' => $this->dateTime()->notNull(),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
             'user_id' => $this->integer()->notNull(),
             'category_id' => $this->integer()->notNull(),
         ]);
