@@ -2,10 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\models\Article;
+use common\models\Category;
+use common\models\Comment;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -28,7 +32,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
@@ -44,7 +48,7 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -75,7 +79,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $category = Category::find()->with('articles')->all();
+        //\Yii::error($category);//дебаг
+        $article = Article::find()->orderBy('views')->limit(4)->all();
+        $comment = Comment::find()->all();//массив объектов
+
+        return $this->render('index', [
+            'category' => $category,
+            'article' => $article,
+            'comment' => $comment,
+        ]);
     }
 
     /**
@@ -141,7 +154,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionAbout()
+    public function actionUser($id)
     {
         return $this->render('about');
     }

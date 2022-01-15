@@ -14,8 +14,8 @@ class m220105_154323_create_article_table extends Migration
     {
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey(),
-            'title' => $this->string(),
-            'text' => $this->text(),
+            'title' => $this->string()->notNull(),
+            'text' => $this->text()->notNull(),
             'views' => $this->tinyInteger()->unsigned()->defaultValue(0),
             'img' => $this->string(),
             'created_at' => $this->integer()->notNull(),

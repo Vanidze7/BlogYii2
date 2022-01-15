@@ -120,13 +120,16 @@ class Article extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if($file = UploadedFile::getInstance($this, 'file')){//берем информацию о загружаемом файле
-            $dir = 'image/' . date("Y-m-d") . '/';//указываем путь к папке где будут сохраняться файлы в папках с текущей датой
-            if (!is_dir($dir))//если такой папки нет
-                mkdir($dir);//создадим
 
+            $path = '/image/' . date("Y-m-d") . '/';
             $file_name = uniqid() . '_' . $file->baseName . '.' . $file->extension;//уникальный код + имя файла и его расширение
-            $this->img = $dir . $file_name;//в свойство img (БД) помещаем путь к файлу и его имя
-            $file->saveAs($this->img);//сохраняем запись в БД
+            $this->img = $path . $file_name;//в свойство img сктроки помещаем путь к файлу и его имя
+            //переходим в папку через функцию . указываем путь к папке где будут сохраняться файлы . в папках с текущей датой
+            $dir =  Yii::getAlias('@frontend') . '/web' . $path;
+
+            if (!file_exists($dir))//если такой папки/файла нет
+                mkdir($dir, 0777, true);//создадим
+            $file->saveAs($dir . $file_name);//сохраняем файл на диск
         }
         return parent::beforeSave($insert);
     }
