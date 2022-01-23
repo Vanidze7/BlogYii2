@@ -80,12 +80,14 @@ class SiteController extends Controller
     {
         $category = Category::find()->with('articles')->all();
         //\Yii::error($category);//дебаг
-        $article = Article::find()->orderBy('views')->limit(4)->all();
-        $comment = Comment::find()->all();//массив объектов
+        $article = Article::find()->orderBy(['created_at' => SORT_DESC])->limit(4)->all();
+        $top_article = Article::find()->orderBy(['views' => SORT_DESC])->limit(4)->all();
+        $comment = Comment::find()->orderBy(['created_at' => SORT_DESC])->limit(4)->all();//массив объектов
 
         return $this->render('index', [
             'category' => $category,
             'article' => $article,
+            'top_article' => $top_article,
             'comment' => $comment,
         ]);
     }

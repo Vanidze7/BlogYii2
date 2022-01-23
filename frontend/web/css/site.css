@@ -91,15 +91,25 @@ a.desc:after {
 
 .block {
     background-color: #ebebeb;
-    padding: 20px 20px;
+    padding: 10px 10px;
     margin: 10px;
 }
 .title {
     text-align: center;
 }
+
 .comment {
     background-color: #fcfcfc;
 }
+
+p {
+    margin-bottom: 0 !important;
+}
+
 .cell {
+    margin-top: 10px;
+}
+
+#add-comment {
 
 }
