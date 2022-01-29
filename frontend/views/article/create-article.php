@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Добавление статьи'
     <?= $form->field($model, 'title')->textInput(['maxlength' => 30]) ?>
     <?= $form->field($model, 'text')->widget(Summernote::class, [
         'options' => ['placeholder' => 'Напечатайте текст статьи']
-    ])//без вывода наименование атрибута?>
+    ])?>
     <?= $form->field($model, 'file')->widget(FileInput::class, [
         'options' => ['accept' => 'image/*'],
         'pluginOptions' => [

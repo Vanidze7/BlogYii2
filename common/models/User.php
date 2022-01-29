@@ -23,6 +23,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property Comment $comments
+ * @property Article $articles
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -59,6 +61,17 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
+
+    public function getArticles()
+    {
+        return $this->hasMany(Article::class, ['user_id' => 'id']);
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::class, ['user_id' => 'id']);
+    }
+
 
     /**
      * {@inheritdoc}

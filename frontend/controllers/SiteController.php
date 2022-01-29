@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Article;
 use common\models\Category;
 use common\models\Comment;
+use common\models\User;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -157,7 +158,9 @@ class SiteController extends Controller
      */
     public function actionUser($id)
     {
-        return $this->render('about');
+        $article_user = Article::find()->where(['user_id' => $id])->with('comments')->orderBy(['created_at' => SORT_DESC])->all();
+        $user = User::findOne($id);
+        return $this->render('user', ['article_user' => $article_user, 'user' => $user]);
     }
 
     /**

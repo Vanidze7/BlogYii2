@@ -20,7 +20,7 @@ use yii\helpers\Html;
                     <?= Html::img($top_art->img, ['width' => '100%']) ?>
                 </div>
                 <div class="col-sm-7">
-                    <h6><a href="<?= \yii\helpers\Url::to(['site/view', 'id' => $top_art->id]) ?>"><?= $top_art->title ?></a></h6>
+                    <h6><a href="<?= \yii\helpers\Url::to(['article/view', 'id' => $top_art->id]) ?>"><?= $top_art->title ?></a></h6>
                     <small>Категория: <a href="<?= \yii\helpers\Url::to(['article/category', 'id' => $top_art->category_id]) ?>"><?= $top_art->category->title ?></a></small>
                     <p><?= substr($top_art->text, 0, 30) ?></p>
                 </div>

@@ -50,7 +50,7 @@ AppAsset::register($this);
                 ['label' => 'Programirovanie', 'url' => ['/article/category', 'id' => 6]],
             ]
         ];
-        $menuItems[] = ['label' => 'Мой профиль', 'url' => ['/site/user']];
+        $menuItems[] = ['label' => 'Мой профиль', 'url' => ['/site/user', 'id' => Yii::$app->user->identity->id]];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
             . Html::submitButton(

@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $title
  * @property string|null $description
  *
- * @property Article[] $articles
+ * @property Article $articles
  */
 class Category extends \yii\db\ActiveRecord
 {
