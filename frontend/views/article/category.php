@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Статьи категории: ' . $category->title;
-
+$this->params['breadcrumbs'][] = ['label' => $category->title];
 ?>
 <div class="article-category">
     <div class="row">

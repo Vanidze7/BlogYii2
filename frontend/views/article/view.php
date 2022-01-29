@@ -7,6 +7,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Статья: ' . $article_one->title;
+$this->params['breadcrumbs'][] = ['label' => $article_one->category->title, 'url' => ['category', 'id' => $article_one->category->id]];
+$this->params['breadcrumbs'][] = ['label' => $article_one->title];
+
 ?>
 <div class="article-view">
     <div class="row">

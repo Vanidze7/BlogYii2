@@ -3,9 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $artone common\models\Article *///указываем переменную и её область видимости
 /* @var $artcat common\models\Article */
-/* @var $top_art common\models\Article */
 /* @var $catone common\models\Category */
-/* @var $comone common\models\Comment */
 
 use yii\helpers\Html;
 

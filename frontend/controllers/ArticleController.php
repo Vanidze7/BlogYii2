@@ -3,13 +3,11 @@
 
 namespace frontend\controllers;
 
-
 use common\models\Article;
 use common\models\Category;
 use common\models\Comment;
 use common\models\User;
 use yii\web\Controller;
-
 
 class ArticleController extends Controller
 {
@@ -39,7 +37,7 @@ class ArticleController extends Controller
             $article_one->save();
         }
         $new_comment = new Comment();//добавление комментария
-        if ($this->request->isPost)
+        if ($this->request->isPost == true)
         {
             $new_comment->user_id = \Yii::$app->user->id;
             $new_comment->article_id = $article_one->id;
@@ -49,5 +47,19 @@ class ArticleController extends Controller
             }
         }
         return $this->render('view', ['article_one' => $article_one, 'new_comment' => $new_comment]);
+    }
+
+    public function actionCreateArticle()
+    {
+        $new_article = new Article();
+        if ($this->request->isPost == true)
+        {
+            $new_article->user_id = \Yii::$app->user->id;
+            if ($new_article->load($this->request->post()) && $new_article->save()) {
+                \Yii::$app->session->setFlash('success', 'Статья опубликована');
+                return $this->redirect(['view', 'id' => $new_article->id]);
+            }
+        }
+        return $this->render('create-article', ['model' => $new_article]);
     }
 }

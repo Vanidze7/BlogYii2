@@ -67,15 +67,15 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Наименование',
+            'title' => 'Наименование статьи',
             'text' => 'Текст статьи',
             'views' => 'Кол-во просмотров',
             'img' => 'Картинка',
-            'file' => 'Файл',
+            'file' => 'Картинка статьи',
             'created_at' => 'Создана',
             'updated_at' => 'Обновлена',
             'user_id' => 'ID Пользователя',
-            'category_id' => 'ID Категории',
+            'category_id' => 'Категория',
         ];
     }
 

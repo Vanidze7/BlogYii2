@@ -31,18 +31,26 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
+            'class' => 'navbar navbar-expand-md navbar-dark bg-info fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
+
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Зарегестрироваться', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = [
+            'label' => 'Категории',
+            'items' => [
+                ['label' => 'Anime', 'url' => ['/article/category', 'id' => 2]],
+                ['label' => 'Movie', 'url' => ['/article/category', 'id' => 1]],
+                ['label' => 'Music', 'url' => ['/article/category', 'id' => 3]],
+                ['label' => 'GYM', 'url' => ['/article/category', 'id' => 4]],
+                ['label' => 'English', 'url' => ['/article/category', 'id' => 5]],
+                ['label' => 'Programirovanie', 'url' => ['/article/category', 'id' => 6]],
+            ]
+        ];
+        $menuItems[] = ['label' => 'Мой профиль', 'url' => ['/site/user']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
             . Html::submitButton(
@@ -53,7 +61,7 @@ AppAsset::register($this);
             . '</li>';
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav ml-auto'],
+        'options' => ['class' => 'navbar-nav'],
         'items' => $menuItems,
     ]);
     NavBar::end();
@@ -63,6 +71,10 @@ AppAsset::register($this);
 <main role="main" class="flex-shrink-0">
     <div class="container">
         <?= Breadcrumbs::widget([
+            'homeLink' => [
+                'label' => 'Главная',
+                'url' => '/',
+            ],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
