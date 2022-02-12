@@ -33,6 +33,7 @@ class ArticleController extends Controller
         if ($session->get("id_article_" . $article_one->id, false) == false)
         {
             $session->set("id_article_" . $article_one->id, 1);
+            $article_one->detachBehavior('timestamp');//отключить поведение по наименованию
             $article_one->views += 1;
             $article_one->save();
         }
@@ -60,6 +61,21 @@ class ArticleController extends Controller
                 return $this->redirect(['view', 'id' => $new_article->id]);
             }
         }
-        return $this->render('create-article', ['model' => $new_article]);
+        return $this->render('article-form', ['model' => $new_article]);
+    }
+
+    public function actionUpdateArticle($id)
+    {
+        $up_article = Article::findOne($id);
+        if ($this->request->isPost == true)
+        {
+            if ($up_article->load($this->request->post()) && $up_article->save()) {
+
+                \Yii::$app->session->setFlash('success', 'Статья опубликована');
+                return $this->redirect(['view', 'id' => $up_article->id]);
+            }
+
+        }
+        return $this->render('article-form', ['model' => $up_article]);
     }
 }

@@ -9,7 +9,6 @@ use yii\helpers\Html;
 <div class="col-sm-4">
     <div class="row block">
         <?= Html::a('Добавить статью', ['article/create-article'], ['class' => 'btn btn-primary btn-block']) ?>
-        <!--<button type="button" class="btn btn-primary btn-block" href="<?= \yii\helpers\Url::to('article/create-article') ?>">Добавить статью</button> почему не работает? -->
     </div>
     <div class="row block">
         <div class="col-sm-12">

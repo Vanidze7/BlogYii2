@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <?php
                                         if (Yii::$app->user->identity->id == $user->id) {?>
                                         <div class="col-sm-5">
-                                            <?= Html::a('Редактировать', ['article/update-article'], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
+                                            <?= Html::a('Редактировать', ['article/update-article', 'id' => $article->id], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
                                         </div>
                                         <?php }?>
                                     </div>

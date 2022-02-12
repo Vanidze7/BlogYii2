@@ -40,7 +40,9 @@ class Article extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'class' => TimestampBehavior::class,
+           'timestamp' => [
+               'class' => TimestampBehavior::class,
+           ]
         ];
     }
 
@@ -120,6 +122,7 @@ class Article extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if($file = UploadedFile::getInstance($this, 'file')){//берем информацию о загружаемом файле
+            $old_image = Yii::getAlias('@frontend') . '/web' . $this->img;
 
             $path = '/image/' . date("Y-m-d") . '/';
             $file_name = uniqid() . '_' . $file->baseName . '.' . $file->extension;//уникальный код + имя файла и его расширение
@@ -129,7 +132,9 @@ class Article extends \yii\db\ActiveRecord
 
             if (!file_exists($dir))//если такой папки/файла нет
                 mkdir($dir, 0777, true);//создадим
-            $file->saveAs($dir . $file_name);//сохраняем файл на диск
+            if ($file->saveAs($dir . $file_name)) { //сохраняем файл на диск
+                unlink($old_image); // удаление файла на диске
+            }
         }
         return parent::beforeSave($insert);
     }

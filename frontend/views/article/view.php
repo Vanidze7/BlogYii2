@@ -25,11 +25,19 @@ $this->params['breadcrumbs'][] = ['label' => $article_one->title];
                             <p>Дата публикации: <?= date ("Y-m-d H:i:s", $article_one->created_at) ?></p>
                             <small>Кол-во просмотров: <?= $article_one->views ?></small>
                         </div>
-                        <div class="col-sm-12">
-                            <h2><?= $article_one->title ?></h2>
-                            <span><?= $article_one->text ?></span>
-                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2><?= $article_one->title ?></h2>
+                        </div>
+                        <?php
+                        if (Yii::$app->user->identity->id == $article_one->user_id) {?>
+                        <div class="col-sm-6">
+                            <?= Html::a('Редактировать', ['article/update-article', 'id' => $article_one->id], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
+                        </div>
+                        <?php }?>
+                    </div>
+                    <span><?= $article_one->text ?></span>
                 </div>
             </div>
             <div class="row block">
@@ -48,7 +56,16 @@ $this->params['breadcrumbs'][] = ['label' => $article_one->title];
                             <?= Html::img('/image/avatar/ava0.jpg', ['width' => '100%']) //Html::img($comment->ava_img, ['width' => '100%']) ?>
                         </div>
                         <div class="col-sm-10 comment">
-                            <a href="<?= Url::to(['site/user', 'id' => $comment->user_id]) ?>"><?= $comment->user->username ?></a>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <a href="<?= Url::to(['site/user', 'id' => $comment->user_id]) ?>"><?= $comment->user->username ?></a>
+                                </div>
+                                <?php if (Yii::$app->user->identity->id == $comment->user_id) {?>
+                                <div class="col-sm-4">
+                                    <?= Html::a('Редактировать', ['article/update-comment', 'id' => $comment->id], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
+                                </div>
+                                <?php } ?>
+                            </div>
                             <span><?= $comment->text ?></span>
                         </div>
                     </div>
