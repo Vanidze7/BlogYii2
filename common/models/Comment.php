@@ -12,6 +12,7 @@ use yii\db\Expression;
  *
  * @property int $id
  * @property string|null $text
+ * @property int $status
  * @property int|null $created_at
  * @property int|null $updated_at
  * @property int $user_id
@@ -22,6 +23,8 @@ use yii\db\Expression;
  */
 class Comment extends \yii\db\ActiveRecord
 {
+    const STATUS_0 = 0;
+    const STATUS_1 = 1;
     /**
      * {@inheritdoc}
      */
@@ -44,7 +47,7 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['text', 'user_id', 'article_id'], 'required'],
-            [['created_at', 'updated_at', 'user_id', 'article_id'], 'integer'],
+            [['created_at', 'updated_at', 'user_id', 'article_id', 'status'], 'integer'],
             [['text'], 'string', 'max' => 255],
             [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::class, 'targetAttribute' => ['article_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -59,6 +62,7 @@ class Comment extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'text' => 'Комментарий',
+            'status' => 'Статус',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлен',
             'user_id' => 'ID Пользователя',

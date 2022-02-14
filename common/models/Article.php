@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
  * @property string|null $title
  * @property string|null $text
  * @property int|null $views
+ * @property int $status
  * @property string|null $img
  * @property int|null $created_at
  * @property int|null $updated_at
@@ -25,10 +26,14 @@ use yii\web\UploadedFile;
  * @property Category $category
  * @property Comment[] $comments
  * @property User $user
+ * @property Comment $visibleComments
  */
 class Article extends \yii\db\ActiveRecord
 {
     public $file;
+
+    const STATUS_0 = 0;
+    const STATUS_1 = 1;
     /**
      * {@inheritdoc}
      */
@@ -53,7 +58,7 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'text', 'user_id', 'category_id'], 'required'],
-            [['created_at', 'updated_at', 'views', 'user_id', 'category_id'], 'integer'],
+            [['created_at', 'updated_at', 'views', 'status', 'user_id', 'category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [['text'], 'string'],
             [['file'], 'image'],
@@ -74,6 +79,7 @@ class Article extends \yii\db\ActiveRecord
             'views' => 'Кол-во просмотров',
             'img' => 'Картинка',
             'file' => 'Картинка статьи',
+            'status' => 'Статус',
             'created_at' => 'Создана',
             'updated_at' => 'Обновлена',
             'user_id' => 'ID Пользователя',
@@ -100,7 +106,10 @@ class Article extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Comment::class, ['article_id' => 'id']);
     }
-
+    /* public function getVisibleComments()
+    {
+        return $this->hasMany(Comment::class, ['article_id' => 'id'])->where(['status' => Comment::STATUS_1]);
+    }*/
     /**
      * Gets query for [[User]].
      *

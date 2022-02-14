@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $description
  *
  * @property Article $articles
+ * @property Article $visibleArticles
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -54,6 +55,11 @@ class Category extends \yii\db\ActiveRecord
     public function getArticles()
     {
         return $this->hasMany(Article::class, ['category_id' => 'id']);
+    }
+
+    public function getVisibleArticles()
+    {
+        return $this->hasMany(Article::class, ['category_id' => 'id'])->where(['status' => Article::STATUS_1]);
     }
 
     public static function getCategoryList()

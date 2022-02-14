@@ -45,7 +45,9 @@ $this->title = 'Бложище';
 
             <div class="row">
                 <div class="col-sm-12">
-                    <?php foreach ($category as $catone){ ?>
+                    <?php foreach ($category as $catone){
+                        if (count($catone->visibleArticles) == 0) continue;//продолжить сначало
+                        ?>
                     <div class="row block">
                         <div class="col-sm-12">
                             <div class="row">
@@ -59,7 +61,7 @@ $this->title = 'Бложище';
                                     <div class="row">
                                         <?php
                                         $count = 0;
-                                        foreach ($catone->articles as $artcat) {
+                                        foreach ($catone->visibleArticles as $artcat) {
                                             if ($count >= 2) break;
                                             ?>
                                             <div class="col-sm-6">

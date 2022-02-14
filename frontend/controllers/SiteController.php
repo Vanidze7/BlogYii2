@@ -10,6 +10,7 @@ use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\db\Query;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -79,11 +80,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $category = Category::find()->with('articles')->all();
+        //$cats = (new Query())->from(Category::tableName())->all();
+        $category = Category::find()->with('visibleArticles')->all();
         //\Yii::error($category);//дебаг
-        $article = Article::find()->orderBy(['created_at' => SORT_DESC])->limit(4)->all();
-        $top_article = Article::find()->orderBy(['views' => SORT_DESC])->limit(4)->all();
-        $comment = Comment::find()->orderBy(['created_at' => SORT_DESC])->limit(4)->all();//массив объектов
+        $article = Article::find()->where(['status' => Article::STATUS_1])->orderBy(['created_at' => SORT_DESC])->limit(4)->all();
+        $top_article = Article::find()->where(['status' => Article::STATUS_1])->orderBy(['views' => SORT_DESC])->limit(4)->all();
+        $comment = Comment::find()->leftJoin(Article::tableName(), 'comment.article_id = article.id')->where(['article.status' => Article::STATUS_1, 'comment.status' => Comment::STATUS_1])->orderBy(['created_at' => SORT_DESC])->limit(4)->all();//массив объектов
 
         return $this->render('index', [
             'category' => $category,

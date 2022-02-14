@@ -94,6 +94,12 @@ a.desc:after {
     padding: 10px 10px;
     margin: 10px;
 }
+.block-non-active {
+    background-color: rgba(248, 111, 111, 0.39);
+    padding: 10px 10px;
+    margin: 10px;
+}
+
 .title {
     text-align: center;
 }
@@ -101,7 +107,9 @@ a.desc:after {
 .comment {
     background-color: #fcfcfc;
 }
-
+.comment-non-active {
+    background-color: rgba(248, 111, 111, 0.39);
+}
 p {
     margin-bottom: 0 !important;
 }
@@ -109,7 +117,6 @@ p {
 .cell {
     margin-top: 10px;
 }
-
 #add-comment {
 
 }
