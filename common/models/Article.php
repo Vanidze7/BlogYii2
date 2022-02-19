@@ -147,4 +147,16 @@ class Article extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+
+    public static function deleteArticle ($id)
+    {
+        $model = self::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+        if ($model !== null) {
+            $model->status = Article::STATUS_0;
+            $model->save();
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -20,6 +20,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -163,6 +164,23 @@ class SiteController extends Controller
         $article_user = Article::find()->where(['user_id' => $id])->with('comments')->orderBy(['created_at' => SORT_DESC])->all();
         $user = User::findOne($id);
         return $this->render('user', ['article_user' => $article_user, 'user' => $user]);
+    }
+    public function actionDeleteArticle($id)
+    {
+        if (Article::deleteArticle($id)) {
+            \Yii::$app->session->setFlash('success', 'Статья удалена');
+            return $this->redirect(['user', 'id' => Yii::$app->user->id]);
+        }
+        throw new NotFoundHttpException('Такой статьи не существует');
+    }
+
+    public function actionDeleteComment($id)
+    {
+        if (Comment::deleteComment($id)) {
+            \Yii::$app->session->setFlash('success', 'Комментарий удален');
+            return $this->redirect(['user', 'id' => Yii::$app->user->id]);
+        }
+        throw new NotFoundHttpException('Такого комментария не существует');
     }
 
     /**

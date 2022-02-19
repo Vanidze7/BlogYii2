@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = ['label' => $article_one->title];
                             <?= Html::a('Редактировать', ['article/update-article', 'id' => $article_one->id], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
                         </div>
                         <div class="col-sm-3">
-                            <?= Html::a('Удалить', ['article/delete', 'id' => $article_one->id], [
+                            <?= Html::a('Удалить', ['article/delete-article', 'id' => $article_one->id], [
                                 'class' => 'btn btn-danger btn-block btn-sm',
                                 'data' => [
                                     'confirm' => 'Ты уверен что хочешь удалить эту статью?',
@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = ['label' => $article_one->title];
                                     <?= Html::a('Редактировать', ['article/view', 'id' => $article_one->id, 'comment' => $comment->id, '#'=> 'add-comment'], ['class' => 'btn btn-primary btn-block btn-sm']) ?>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= Html::a('Удалить', ['article/delete-comment', 'id' => $comment->id, 'article_id' => $article_one->id], [
+                                    <?= Html::a('Удалить', ['article/delete-comment', 'id' => $comment->id], [
                                         'class' => 'btn btn-danger btn-block btn-sm',
                                         'data' => [
                                             'confirm' => 'Ты уверен что хочешь удалить этот комментарий?',

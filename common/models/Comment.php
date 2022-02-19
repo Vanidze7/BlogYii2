@@ -89,4 +89,15 @@ class Comment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public static function deleteComment ($id)
+    {
+        $model = self::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+        if ($model !== null) {
+            $model->status = Comment::STATUS_0;
+            $model->save();
+            return $model->article_id;
+        }
+        return false;
+    }
 }
