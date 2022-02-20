@@ -4,9 +4,16 @@
 /* @var $comone common\models\Comment */
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 ?>
 <div class="col-sm-4">
+    <div class="row block">
+        <?php $form = ActiveForm::begin(['action' => ['article/search'], 'options' => ['class' => 'form-inline']]) ?>
+        <?= $form->field($search, 'query')->textInput(['maxlength' => 30])->label(false)?>
+        <?= Html::submitButton('Поиск', ['class' => 'btn btn-success ml-sm-2']) ?>
+        <?php ActiveForm::end(); ?>
+    </div>
     <div class="row block">
         <?= Html::a('Добавить статью', ['article/create-article'], ['class' => 'btn btn-primary btn-block']) ?>
     </div>

@@ -86,6 +86,6 @@ $this->title = 'Бложище';
                 </div>
             </div>
         </div>
-        <?= Yii::$app->controller->renderPartial('/right-bar', ['top_article' => $top_article, 'comment' => $comment]) ?>
+        <?= Yii::$app->controller->renderPartial('/right-bar', ['top_article' => $top_article, 'comment' => $comment, 'search' => $search]) ?>
     </div>
 </div>

@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\ArticleSearch;
 use common\models\Category;
 use common\models\Comment;
 use Yii;
@@ -109,5 +110,31 @@ class ArticleController extends Controller
             return $this->redirect(['view', 'id' => $article_id]);
         }
         throw new NotFoundHttpException('Такого комментария не существует');
+    }
+
+    public function actionSearch()
+    {
+        $top_article = Article::find()->where(['status' => Article::STATUS_1])->orderBy(['views' => SORT_DESC])->limit(4)->all();
+        $comment = Comment::find()->leftJoin(Article::tableName(), 'comment.article_id = article.id')->where(['article.status' => Article::STATUS_1, 'comment.status' => Comment::STATUS_1])->orderBy(['created_at' => SORT_DESC])->limit(4)->all();//массив объектов
+
+        $search = new ArticleSearch();
+        $articles = [];
+        if ($this->request->isPost == true)
+        {
+            if ($search->load(Yii::$app->request->post()) && $search->validate()) {
+                $searchquery = explode(" ", $search->query);//делит строку по указанному разделителю и возвращает строку в виде массива
+                $articles = Article::find();
+                foreach ($searchquery as $query) {
+                    $articles = $articles->orWhere(['like', 'title', $query])->orWhere(['like', 'text', $query]);
+                }
+                $articles = $articles->all();
+            }
+        }
+
+        return $this->render('search', [
+            'articles' => $articles,
+            'top_article' => $top_article,
+            'comment' => $comment,
+            'search' => $search,]);
     }
 }

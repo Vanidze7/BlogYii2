@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\ArticleSearch;
 use common\models\Category;
 use common\models\Comment;
 use common\models\User;
@@ -87,12 +88,14 @@ class SiteController extends Controller
         $article = Article::find()->where(['status' => Article::STATUS_1])->orderBy(['created_at' => SORT_DESC])->limit(4)->all();
         $top_article = Article::find()->where(['status' => Article::STATUS_1])->orderBy(['views' => SORT_DESC])->limit(4)->all();
         $comment = Comment::find()->leftJoin(Article::tableName(), 'comment.article_id = article.id')->where(['article.status' => Article::STATUS_1, 'comment.status' => Comment::STATUS_1])->orderBy(['created_at' => SORT_DESC])->limit(4)->all();//массив объектов
+        $search = new ArticleSearch();
 
         return $this->render('index', [
             'category' => $category,
             'article' => $article,
             'top_article' => $top_article,
             'comment' => $comment,
+            'search' => $search,
         ]);
     }
 
