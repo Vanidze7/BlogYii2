@@ -12,6 +12,7 @@ use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -295,5 +296,16 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionSearch()
+    {
+        return $this->render("search");
+    }
+
+    public function actionGetArticleByCategoryId($id)
+    {
+        $articles = Article::find()->select(['id', 'title'])->where(['category_id' => $id])->all();
+        return $this->asJson(['success' => true, 'result' => $articles]);
     }
 }
